@@ -1,0 +1,84 @@
+<div class="ui main menu ">
+  <a class="item" ng-href="{{'#'+(lastPage||'/list')}}">
+    <i class="red left arrow icon"></i> 上级
+  </a>
+  <div class="item"></div>
+  <a class="right teal item" href="#/user" ng-if="$root.rank>=2">
+    <i class="purple user icon"></i> 我
+  </a>
+  <a class="right teal item disabled" ng-if="$root.rank<2">
+    <i class="purple user icon disabled"></i> 我
+  </a>
+</div>
+
+<div class="ui segment" style="position:relative" ng-style="{color:data.colour}">
+  <div class="ui list" style="margin-bottom:0">
+    <div class="ui right corner label" ng-class="data.color">
+      <i class="icon" ng-class="{info:data.type==1,search:data.type==2,heart:data.type==3}"></i>
+    </div>
+    <div class="item" ng-class="data.color">
+      <div class="header" ng-bind="'【'+(data.type==1? '通知':(data.type==2? '失物':'拾物'))+'】'+data.title"></div>
+      <div class="list">
+        <div class="item">日期： <b ng-bind="data.date||'无'"></b></div>
+        <div class="item">
+          {{data.type==1? '版':(data.type==2? '失':'拾')}}主： 
+          <b ng-bind="data.linkmen||'无'"></b>
+        </div>
+        <div class="item">学号： <b ng-bind="data.studentId||'无'"></b></div>
+        <div class="item">来源： <b ng-bind="data.where||'无'"></b></div>
+        <div class="item" ng-if="data.qq">ＱＱ： <b ng-bind="data.qq||'无'"></b></div>
+        <div class="item" ng-if="data.phone">电话： <b ng-bind="data.phone||'无'"></b></div>
+        <div class="item" ng-if="!data.phone&&!data.qq">微信： <b>查水表小分队</b></div>
+      </div>
+    </div>
+  </div>
+  <div ng-model="data.details" ng-if="data.details" markdown></div>
+  <div ng-if="data.picture">
+    <img class="rounded ui image" ng-src="{{data.picture}}" style="width:95%;max-width:400px;margin:auto">
+  </div>
+</div>
+
+<div class="ui horizontal icon divider" ng-show="data">
+  <i class="circular red heart icon"></i>
+</div>
+
+<div class="ui segment" id="comments" ng-show="data">
+  <div class="header"><i class="icon inverted blue circular comment"></i>评论</div><br/>
+  <div class="list">
+   <div class="item" ng-repeat="item in data.comments | paging:start:length">
+      <div class="ui comments">
+        <div class="comment">
+          <div class="ui ribbon blue label" ng-bind="item.nick"></div>
+          <div class="metadata" ng-bind="item.time" style="float:right;padding-top:10px"></div>
+          <div class="text" ng-bind="item.content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ui mini buttons" style="width:100%;margin-bottom:10px" ng-show="data.comments.length>length">
+    <div style="margin:auto;width:125px;">
+      <div class="ui orange button" ng-class="{disabled:start<=0}" ng-click="(start<=0)||(start=start-length)">上一页</div>
+      <div class="or"></div>
+      <div class="ui green button" ng-class="{disabled:start+length>=data.comments.length}" ng-click="(start+length>=data.comments.length)||(start=start+length)">下一页</div>
+    </div>
+  </div>
+  <form class="ui reply form">
+    <div class="field" ng-class="{error:commentError}">
+      <textarea ng-click="commentError=false"></textarea>
+      <div class="ui red pointing above ui label" ng-show="commentError">评论内容不能为空，且长度不能超过140个字！</div>
+    </div>
+    <div class="ui fluid blue labeled submit icon button" ng-class="{disabled:addDisabled}" ng-click="addComment()">
+      <i class="icon edit"></i> 我也来评论一下！
+    </div>
+    <div class="ui inverted dimmer" ng-class="{active:!$root.rank||$root.rank<1}">
+      <div class="content">
+        <div class="center">
+          <h5 class="ui inverted icon header">
+            <i class="icon circular inverted emphasized red info letter"></i>
+            <span style="color:#D95C5C" ng-if="$root.rank==0">从微信【查水表小分队】中访问才能评论！</span>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

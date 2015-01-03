@@ -1,0 +1,56 @@
+<div class="ui main menu">
+  <a class="item" ng-href="{{'#'+(lastPage||'/list')}}" ng-if="key">
+    <i class="red left arrow icon"></i> 上级
+  </a>
+  <a class="item" href="#/add" ng-if="!key">
+    <i class="teal add icon"></i> 发布
+  </a>
+  <div class="item"></div>
+  <a class="right teal item" href="#/user" ng-if="$root.rank>=2">
+    <i class="purple user icon"></i> 我
+  </a>
+  <a class="right teal item disabled" ng-if="$root.rank<2">
+    <i class="purple user icon disabled"></i> 我
+  </a>
+</div>
+
+<form ng-submit="listSubmit()">
+  <div class="ui action input" style="width:100%;margin:auto">
+    <input type="text" placeholder="查询..." name="key">
+    <div class="ui icon basic button" ng-click="listSubmit()">
+      <i class="search icon"></i>
+    </div>
+  </div>
+</form>
+
+<div class="ui tabular menu">    
+  <a class="item" ng-class="{active:!type||type==0}" ng-href="#/list{{key? '?key='+key:''}}">全部</a>
+  <a class="item" ng-class="{active:type==1}" ng-href="#/list?type=1{{key? '&key='+key:''}}">公告</a>
+  <a class="item" ng-class="{active:type==2}" ng-href="#/list?type=2{{key? '&key='+key:''}}">寻物</a>
+  <a class="item" ng-class="{active:type==3}" ng-href="#/list?type=3{{key? '&key='+key:''}}">招领</a>
+</div>
+
+<div class="ui divided list" ng-if="data&&info.totalPage">
+  <a class="item" style="position:relative" ng-href="#/details?id={{item.id}}" ng-repeat="item in data | sortBy:upTime:true">
+    <div class="ui right corner label" ng-class="{teal:item.type==1,green:item.type==2,blue:item.type==3}">
+      <i class="icon" ng-class="{info:item.type==1,search:item.type==2,heart:item.type==3}"></i>
+    </div>
+      <img class="ui small left floated image" ng-src="{{item.picture}}" style="margin-bottom:0;max-width:90px;max-height:90px;width:100%">
+    <div class="content" style="width:62%;" ng-init="color=(item.type==1? '#00B5AD':(item.type==2? '#A1CF64':'#6ECFF5'))" ng-style="{color:color}">
+      <div class="header" ng-bind="item.title"></div>
+      {{item.type==1? '版':(item.type==2? '失':'拾')}}主：{{item.linkmen}}<br/>
+      {{(item.type==1? '来源':'地点')+'：'+item.where}}<br/>
+      {{item.studentId? '学号：'+item.studentId:(item.phone||item.qq? (item.phone? '电话：'+item.phone:'ＱＱ：'+item.qq):'微信：查水表小分队')}}<br/>
+      日期：{{item.date}}<br/>
+    </div>
+  </a>
+</div>
+<div style="margin:auto;width:260px" ng-if="info&&info.totalPage>1" ng-init="urlPre='#/list?type='+type+(key? '&key='+key:'')">
+  <a class="ui teal mini button" ng-href="{{info.page<=1? '':urlPre+'&page=1'}}" ng-class="{disabled:info.page<=1}">首页</a>
+  <a class="ui teal mini button" ng-href="{{info.page<=1? '':urlPre+'&page='+(info.page-1)}}" ng-class="{disabled:info.page<=1}">上页</a>
+  <div class="ui teal mini button disabled" ng-bind="info.page+'/'+info.totalPage"></div>
+  <a class="ui teal mini button" ng-href="{{info.page>=info.totalPage? '':urlPre+'&page='+(info.page-1+2)}}" ng-class="{disabled:info.page>=info.totalPage}">下页</a>
+  <a class="ui teal mini button" ng-href="{{info.page>=info.totalPage? '':urlPre+'&page='+(info.totalPage)}}" ng-class="{disabled:info.page>=info.totalPage}">尾页</a>
+</div>
+<div class="ui yellow message" ng-if="data&&!info.totalPage&&key">当前模块未找到与【{{key}}】相关的内容！</div>
+<div class="ui yellow message" ng-if="data&&!info.totalPage&&!key">当前模块暂时无内容！</div>

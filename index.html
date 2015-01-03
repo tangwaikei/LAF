@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app="LAF" ng-controller="mainCtrl">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>失物招领(Lost And Found)-查水表小分队</title>
+    <!-- css -->
+    <link href="http://cdn.bootcss.com/semantic-ui/0.19.3/css/semantic.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/messenger/1.4.0/css/messenger.css">
+    <link rel="stylesheet" href="http://cdn.bootcss.com/messenger/1.4.0/css/messenger-theme-flat.css">
+    <!-- js -->
+    <script src="http://cdn.bootcss.com/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.2.16/angular.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.2.16/angular-cookies.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.2.16/angular-route.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.2.16/angular-sanitize.min.js"></script>
+    <script src="http://cdn.bootcss.com/semantic-ui/0.19.3/javascript/semantic.min.js"></script>
+    <script src="http://cdn.bootcss.com/messenger/1.4.0/js/messenger.min.js"></script>
+    <script src="http://cdn.bootcss.com/messenger/1.4.0/js/messenger-theme-flat.js"></script>
+    <script src="http://ypan.qiniudn.com/scripts/JTimer_1.3.js"></script>
+    <script src="scripts/marked.js"></script>
+    <script src="scripts/main.js"></script>
+  </head>
+  <body>
+    <!-- 加载中 -->
+    <div class="ui inverted dimmer" ng-class="{active:$root.loading,disabled:!$root.loading}">
+      <div class="ui text loader">正在加载中...</div>
+    </div>
+    <!-- 页面主体 -->
+    <div ng-view></div>
+    <!-- 统计 -->
+    <div ng-show="false">
+      <script src="http://js.users.51.la/17568319.js"></script>
+    </div>
+  </body>
+</html>
