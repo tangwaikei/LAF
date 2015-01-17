@@ -1,5 +1,5 @@
 <div class="ui main menu ">
-  <a class="item" ng-href="{{'#'+(lastPage||'/list')}}">
+  <a class="item" ng-href="{{'#'+($root.lastPage||'/list')}}">
     <i class="red left arrow icon"></i> 上级
   </a>
   <div class="item"></div>
@@ -13,9 +13,11 @@
 
 <div class="ui segment" style="position:relative" ng-style="{color:data.colour}">
   <div class="ui list" style="margin-bottom:0">
+    <!-- 右上角图标 -->
     <div class="ui right corner label" ng-class="data.color">
       <i class="icon" ng-class="{info:data.type==1,search:data.type==2,heart:data.type==3}"></i>
     </div>
+    <!-- 简介 -->
     <div class="item" ng-class="data.color">
       <div class="header" ng-bind="'【'+(data.type==1? '通知':(data.type==2? '失物':'拾物'))+'】'+data.title"></div>
       <div class="list">
@@ -32,20 +34,43 @@
       </div>
     </div>
   </div>
-  <div ng-model="data.details" ng-if="data.details" markdown></div>
+  <!-- 详情 -->
+  <div ng-model="data.details" ng-if="data.details" style="margin: 0 10px" markdown></div>
+  <!-- 图片 -->
   <div ng-if="data.picture">
     <img class="rounded ui image" ng-src="{{data.picture}}" style="width:95%;max-width:400px;margin:auto">
   </div>
+  <!-- 所有者删除和编辑 -->
+  <div class="ui two column grid" ng-if="data.own">
+    <!-- 编辑 -->
+    <div class="column" style="float:left">
+      <div class="opt">
+        <a ng-href="#/edit?id={{data.id}}">
+          <i class="fa fa-edit fa-2x" ng-style="{color:data.colour}" ng-click="edit()"></i>
+        </a>
+      </div>
+    </div>
+    <!-- 删除 -->
+    <div class="column" style="float:right">
+      <div class="opt">
+        <i class="fa fa-trash-o fa-2x" ng-style="{color:data.colour}" ng-click="del()"></i>
+      </div>
+    </div>
+  </div>
 </div>
 
+<!-- 邪恶的分割线 -->
 <div class="ui horizontal icon divider" ng-show="data">
   <i class="circular red heart icon"></i>
 </div>
 
+
+<!-- 评论 -->
 <div class="ui segment" id="comments" ng-show="data">
   <div class="header"><i class="icon inverted blue circular comment"></i>评论</div><br/>
   <div class="list">
-   <div class="item" ng-repeat="item in data.comments | paging:start:length">
+    <!-- 评论内容 -->
+    <div class="item" ng-repeat="item in data.comments | paging:start:length">
       <div class="ui comments">
         <div class="comment">
           <div class="ui ribbon blue label" ng-bind="item.nick"></div>
@@ -55,6 +80,7 @@
       </div>
     </div>
   </div>
+  <!-- 评论分页 -->
   <div class="ui mini buttons" style="width:100%;margin-bottom:10px" ng-show="data.comments.length>length">
     <div style="margin:auto;width:125px;">
       <div class="ui orange button" ng-class="{disabled:start<=0}" ng-click="(start<=0)||(start=start-length)">上一页</div>
@@ -62,6 +88,7 @@
       <div class="ui green button" ng-class="{disabled:start+length>=data.comments.length}" ng-click="(start+length>=data.comments.length)||(start=start+length)">下一页</div>
     </div>
   </div>
+  <!-- 发表评论 -->
   <form class="ui reply form">
     <div class="field" ng-class="{error:commentError}">
       <textarea ng-click="commentError=false"></textarea>

@@ -1,8 +1,8 @@
 <div class="ui main menu">
-  <a class="item" ng-href="{{'#'+(lastPage||'/list')}}" ng-if="key">
+  <a class="item" ng-href="{{'#'+($root.lastPage||'/list')}}" ng-if="key">
     <i class="red left arrow icon"></i> 上级
   </a>
-  <a class="item" href="#/add" ng-if="!key">
+  <a class="item" href="#/edit" ng-if="!key">
     <i class="teal add icon"></i> 发布
   </a>
   <div class="item"></div>
@@ -16,7 +16,7 @@
 
 <form ng-submit="listSubmit()">
   <div class="ui action input" style="width:100%;margin:auto">
-    <input type="text" placeholder="查询..." name="key">
+    <input type="text" placeholder="搜索..." name="key">
     <div class="ui icon basic button" ng-click="listSubmit()">
       <i class="search icon"></i>
     </div>
@@ -37,9 +37,9 @@
     </div>
       <img class="ui small left floated image" ng-src="{{item.picture}}" style="margin-bottom:0;max-width:90px;max-height:90px;width:100%">
     <div class="content" style="width:62%;" ng-init="color=(item.type==1? '#00B5AD':(item.type==2? '#A1CF64':'#6ECFF5'))" ng-style="{color:color}">
-      <div class="header" ng-bind="item.title"></div>
+      <div class="header" ng-bind="item.title | limitTo:10"></div>
       {{item.type==1? '版':(item.type==2? '失':'拾')}}主：{{item.linkmen}}<br/>
-      {{(item.type==1? '来源':'地点')+'：'+item.where}}<br/>
+      {{(item.type==1? '来源':'地点')+'：'+(item.where | limitTo:10)}}<br/>
       {{item.studentId? '学号：'+item.studentId:(item.phone||item.qq? (item.phone? '电话：'+item.phone:'ＱＱ：'+item.qq):'微信：查水表小分队')}}<br/>
       日期：{{item.date}}<br/>
     </div>

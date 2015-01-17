@@ -1,0 +1,33 @@
+.column {
+	margin-bottom: 0 !important;
+}
+.opt {
+	margin:auto;
+	width: 60px;
+	height: 60px;
+	background-color: #fff;
+	border-radius: 36px;
+	border:1px solid #ddd;
+	color: #888;
+	cursor: pointer;
+	filter: alpha(opacity=50);
+	-moz-opacity: 0.5;
+	opacity: 0.5;
+}
+.opt i {
+	margin: 15px;
+	width: 32px;
+	height: 32px;
+	text-align: center;
+}
+.footer {
+	margin-top: 30px;
+	text-align: center;
+}
+.footer p {
+	color: #b0b8bd;
+	font-size:12px;
+}
+.footer p a {
+	color: #96D4EA;
+}

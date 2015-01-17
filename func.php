@@ -112,8 +112,8 @@ function hmac_sha1($data,$key,$blockSize=64,$opad=0x5c,$ipad=0x36)
 function file_update($fileName)
 {
     //AK&SK
-    $AccessKey="AccessKey";
-    $SecretKey="SecretKey";
+    $AccessKey="";
+    $SecretKey="";
     //生成uploadToken
     $returnBody='{"key": $(key)}';
     $putPolicy=json_encode(array('scope'=>'hnust-laf','deadline'=>time()+600,'returnBody'=>$returnBody));

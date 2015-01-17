@@ -1,5 +1,5 @@
 <div class="ui main menu ">
-  <a class="item" ng-href="{{'#'+(lastPage||'/list')}}">
+  <a class="item" ng-href="{{'#'+($root.lastPage||'/list')}}">
     <i class="red left arrow icon"></i> 上级
   </a>
   <div class="item"></div>
@@ -11,24 +11,25 @@
   </a>
 </div>
 
-<form class="ui form segment" method="post" action="index.php" enctype="multipart/form-data" id="addForm">
-  <input type="hidden" name="fun" value="add">
+<form class="ui form segment" method="post" action="index.php" enctype="multipart/form-data" id="editForm">
+  <input type="hidden" name="fun" value="edit">
+  <input type="hidden" name="id" value="{{id}}">
   <div class="inline fields">
     <div class="field" ng-show="$root.rank==9">
       <div class="ui radio checkbox">
-        <input type="radio" name="type" value="1">
+        <input type="radio" ng-model="type" name="type" value="1">
         <label>通知&nbsp;&nbsp;&nbsp;</label>
       </div>
     </div>
     <div class="field">
       <div class="ui radio checkbox">
-        <input type="radio" name="type" value="2" checked="">
+        <input type="radio" ng-model="type" name="type" value="2" checked="">
         <label>寻物 &nbsp;&nbsp;&nbsp;</label>
       </div>
     </div>
     <div class="field">
       <div class="ui radio checkbox">
-        <input type="radio" name="type" value="3">
+        <input type="radio" ng-model="type" name="type" value="3">
         <label>招领 &nbsp;&nbsp;&nbsp;</label>
       </div>
     </div>
@@ -36,47 +37,52 @@
   </div>
   <div class="field" ng-class="{error:titleError}">
     <label>标题：</label>
-    <input placeholder="标题" type="text" name="title" ng-click="titleError=false">
+    <input placeholder="标题" type="text" name="title" ng-model="title" ng-click="titleError=false">
     <div class="ui red pointing above ui label" ng-show="titleError">请输入30字以内的标题！</div>
   </div>
   <div class="field" ng-class="{error:dateError}">
     <label>日期：</label>
-    <input placeholder="丢失/拾得日期" type="text" name="date" id="date" ng-click="dateError=false" onclick="JTC.setday()">
+    <input placeholder="丢失/拾得日期" type="text" name="date" ng-model="date" ng-click="dateError=false" onclick="JTC.setday()">
     <div class="ui red pointing above ui label" ng-show="dateError">日期不能为空，且格式形如"2014-01-01"！</div>
   </div>
   <div class="field" ng-class="{error:fromError}">
     <label>地点：</label>
-      <input placeholder="失物或拾物的地点/来源" type="text" name="where" ng-click="whereError=false">
+      <input placeholder="失物或拾物的地点/来源" type="text" name="where"  ng-model="where" ng-click="whereError=false">
     <div class="ui red pointing above ui label" ng-show="whereError">地点不能为空！</div>
   </div>
   <div class="field" ng-class="{error:linkmenError}">
     <label>联系人：</label>
-    <input placeholder="对您的称呼" type="text" name="linkmen" ng-click="linkmenError=false">
+    <input placeholder="对您的称呼" type="text" name="linkmen" ng-model="linkmen" ng-click="linkmenError=false">
     <div class="ui red pointing above ui label" ng-show="linkmenError">联系人不能为空！</div>
   </div>
   <div class="field" ng-class="{error:studentIdError}">
     <label>学号：</label>
-    <input placeholder="您的学号(选填)" type="text" name="studentId" ng-click="studentIdError=false">
+    <input placeholder="您的学号(选填)" type="text" name="studentId" ng-model="studentId" ng-click="studentIdError=false">
     <div class="ui red pointing above ui label" ng-show="studentIdError">学号填写有误！</div>
   </div>
   <div class="field" ng-class="{error:phoneError||contactError}">
     <label>手机：</label>
-    <input placeholder="您的手机号码" type="text" name="phone" ng-click="phoneError=false;contactError=false">
+    <input placeholder="您的手机号码" type="text" name="phone" ng-model="phone" ng-click="phoneError=false;contactError=false">
     <div class="ui red pointing above ui label" ng-show="phoneError">请输入正确的手机号码！</div>
     <div class="ui red pointing above ui label" ng-show="contactError">手机号码与QQ不能同时为空！</div>
   </div>
   <div class="field" ng-class="{error:qqError||contactError}">
     <label>QQ：</label>
-    <input placeholder="您的QQ号码" type="text" name="qq" ng-click="qqError=false;contactError=false">
+    <input placeholder="您的QQ号码" type="text" name="qq" ng-model="qq" ng-click="qqError=false;contactError=false">
     <div class="ui red pointing above ui label" ng-show="qqError">请输入正确的QQ号码！</div>
     <div class="ui red pointing above ui label" ng-show="contactError">手机号码与QQ不能同时为空！</div>
   </div>
   <div class="field">
     <label>详情：</label>
-    <textarea name="details"></textarea>
+    <textarea name="details" ng-model="details"></textarea>
   </div>
   <div class="field">
     <label>图片：</label>
+    <p ng-if="img">
+      <input type="hidden" name="img" value="{{img}}">
+      <img ng-src="{{img}}" style="width:95%;max-width:400px;margin:auto">
+      上传新图片可以覆盖旧图片
+    </p>
     <input type="file" accept="image/*" name="picture">
   </div>
   <div class="ui fluid blue labeled submit icon button" ng-class="{disabled:addDisabled}" ng-click="addSubmit()">
